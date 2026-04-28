@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useCart } from "@/lib/cart";
 import { supabase } from "@/integrations/supabase/client";
-import { buildOrderMessage, buildOrderWaLink } from "@/lib/order-message";
+import { buildOrderMessage, openOrderWhatsApp } from "@/lib/order-message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -113,7 +113,7 @@ function CheckoutPage() {
       notes: parsed.data.notes,
       total,
     });
-    window.open(buildOrderWaLink(message), "_blank", "noopener");
+    openOrderWhatsApp(message);
     clear();
     toast.success("Order saved! Opening WhatsApp…");
     navigate({ to: "/account" });
