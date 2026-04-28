@@ -84,7 +84,7 @@ export function ProductForm({ product, onSaved, onCancel }: { product: EditProdu
         payload,
         table: "products",
       });
-      return toast.error(error.message || "Database error");
+      return toast.error(`${error.code}: ${error.message} - ${error.details || ""} ${error.hint || ""}`);
     }
 
     toast.success("Saved");
