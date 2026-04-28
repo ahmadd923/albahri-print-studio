@@ -13,7 +13,3 @@ export const cleanWhatsAppNumber = (phone = BUSINESS.whatsappNumber) => phone.re
 
 export const waLink = (msg = DEFAULT_WHATSAPP_MESSAGE) =>
   `https://wa.me/${cleanWhatsAppNumber()}?text=${encodeURIComponent(msg)}`;
-
-export function openWhatsApp(msg = DEFAULT_WHATSAPP_MESSAGE) {
-  window.open(waLink(msg), "_blank", "noopener,noreferrer");
-}
