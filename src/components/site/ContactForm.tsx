@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { MessageCircle, Upload } from "lucide-react";
-import { BUSINESS, waLink } from "./constants";
+import { BUSINESS, openWhatsApp, waLink } from "./constants";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Name is required").max(80),
@@ -43,7 +43,7 @@ Phone: ${parsed.data.phone}
 Product: ${parsed.data.product}
 Quantity: ${parsed.data.quantity}
 ${fileName ? `Design file: ${fileName}\n` : ""}${parsed.data.message ? `Message: ${parsed.data.message}` : ""}`;
-    window.open(waLink(msg), "_blank", "noopener");
+    openWhatsApp(msg);
     toast.success("Opening WhatsApp to send your order…");
     setSubmitting(false);
   };
@@ -95,7 +95,7 @@ ${fileName ? `Design file: ${fileName}\n` : ""}${parsed.data.message ? `Message:
           <MessageCircle className="h-5 w-5" /> Send via WhatsApp
         </Button>
         <Button asChild variant="outline" size="lg">
-          <a href={waLink()} target="_blank" rel="noreferrer">Chat Directly</a>
+          <a href={waLink()} onClick={(e) => { e.preventDefault(); openWhatsApp(); }} target="_blank" rel="noreferrer">Chat Directly</a>
         </Button>
       </div>
     </form>
