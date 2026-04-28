@@ -14,15 +14,6 @@ export const cleanWhatsAppNumber = (phone = BUSINESS.whatsappNumber) => phone.re
 export const waLink = (msg = DEFAULT_WHATSAPP_MESSAGE) =>
   `https://wa.me/${cleanWhatsAppNumber()}?text=${encodeURIComponent(msg)}`;
 
-export const waFallbackLink = (msg = DEFAULT_WHATSAPP_MESSAGE) =>
-  `https://api.whatsapp.com/send?phone=${cleanWhatsAppNumber()}&text=${encodeURIComponent(msg)}`;
-
 export function openWhatsApp(msg = DEFAULT_WHATSAPP_MESSAGE) {
-  const features = "noopener,noreferrer";
-  try {
-    const opened = window.open(waLink(msg), "_blank", features);
-    if (!opened) window.open(waFallbackLink(msg), "_blank", features);
-  } catch {
-    window.open(waFallbackLink(msg), "_blank", features);
-  }
+  window.open(waLink(msg), "_blank", "noopener,noreferrer");
 }
