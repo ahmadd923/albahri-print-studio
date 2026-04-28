@@ -6,7 +6,7 @@ import { Gallery } from "@/components/site/Gallery";
 import { HowItWorks } from "@/components/site/HowItWorks";
 import { WhyUs } from "@/components/site/WhyUs";
 import { Button } from "@/components/ui/button";
-import { waLink } from "@/components/site/constants";
+import { openWhatsApp, waLink } from "@/components/site/constants";
 import { MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -36,7 +36,7 @@ function Index() {
           <p className="mt-3 text-muted-foreground">Send us your design on WhatsApp — we'll handle the rest.</p>
           <div className="mt-7 flex justify-center gap-3 flex-wrap">
             <Button asChild variant="whatsapp" size="xl">
-              <a href={waLink()} target="_blank" rel="noreferrer">
+              <a href={waLink()} onClick={(e) => { e.preventDefault(); openWhatsApp(); }} target="_blank" rel="noreferrer">
                 <MessageCircle className="h-5 w-5" /> Order on WhatsApp
               </a>
             </Button>
