@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, Printer, ShoppingCart, User as UserIcon, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { openWhatsApp, waLink } from "./constants";
+import { waLink } from "./constants";
 import { useAuth } from "@/lib/auth";
 import { useCart } from "@/lib/cart";
 
@@ -75,7 +75,7 @@ export function Header() {
             </Button>
           )}
           <Button asChild variant="whatsapp" size="sm">
-            <a href={waLink()} onClick={(e) => { e.preventDefault(); openWhatsApp(); }} target="_blank" rel="noreferrer">WhatsApp</a>
+            <a href={waLink()} target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </Button>
         </div>
 
@@ -124,7 +124,7 @@ export function Header() {
               </Button>
             )}
             <Button asChild variant="whatsapp" className="mt-2">
-              <a href={waLink()} onClick={(e) => { e.preventDefault(); openWhatsApp(); setOpen(false); }} target="_blank" rel="noreferrer">Order on WhatsApp</a>
+              <a href={waLink()} onClick={() => setOpen(false)} target="_blank" rel="noopener noreferrer">Order on WhatsApp</a>
             </Button>
           </nav>
         </div>
