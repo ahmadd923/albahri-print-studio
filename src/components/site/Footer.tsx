@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Mail, MapPin, Phone, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { BUSINESS, waLink } from "./constants";
+import { BUSINESS, openWhatsApp, waLink } from "./constants";
 
 function TikTokIcon({ className }: { className?: string }) {
   return (
@@ -55,7 +55,7 @@ export function Footer() {
             <a href="#" aria-label="TikTok" className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 hover:bg-gold hover:text-primary transition"><TikTokIcon className="h-5 w-5" /></a>
           </div>
           <Button asChild variant="whatsapp" className="w-full">
-            <a href={waLink()} target="_blank" rel="noreferrer">Order on WhatsApp</a>
+            <a href={waLink()} onClick={(e) => { e.preventDefault(); openWhatsApp(); }} target="_blank" rel="noreferrer">Order on WhatsApp</a>
           </Button>
         </div>
       </div>
