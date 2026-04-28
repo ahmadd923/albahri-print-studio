@@ -95,7 +95,7 @@ ${fileName ? `Design file: ${fileName}\n` : ""}${parsed.data.message ? `Message:
           <MessageCircle className="h-5 w-5" /> Send via WhatsApp
         </Button>
         <Button asChild variant="outline" size="lg">
-          <a href={waLink()} onClick={(e) => { e.preventDefault(); openWhatsApp(); }} target="_blank" rel="noreferrer">Chat Directly</a>
+          <a href={waLink()} target="_blank" rel="noopener noreferrer">Chat Directly</a>
         </Button>
       </div>
     </form>
