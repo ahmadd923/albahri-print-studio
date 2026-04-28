@@ -1,8 +1,8 @@
 export const BUSINESS = {
   name: "Al Bahri",
   tagline: "Custom Printing Services",
-  phoneDisplay: "+970 59 000 0000",
-  whatsappNumber: "970590000000",
+  phoneDisplay: "+970 56 955 5252",
+  whatsappNumber: "970569555252",
   email: "info@albahri-printing.com",
   location: "Palestine",
 };
