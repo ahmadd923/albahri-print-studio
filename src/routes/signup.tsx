@@ -21,13 +21,13 @@ const schema = z.object({
 });
 
 function SignupPage() {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!loading && user) navigate({ to: "/account" });
-  }, [user, loading, navigate]);
+    if (!loading && user) navigate({ to: isAdmin || user.email?.toLowerCase() === "bahriabed16@gmail.com" ? "/admin" : "/account" });
+  }, [user, loading, isAdmin, navigate]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ function SignupPage() {
     setSubmitting(false);
     if (error) return toast.error(error.message);
     toast.success("Account created!");
-    navigate({ to: "/account" });
+    navigate({ to: parsed.data.email.toLowerCase() === "bahriabed16@gmail.com" ? "/admin" : "/account" });
   };
 
   return (
