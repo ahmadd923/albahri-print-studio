@@ -3,6 +3,9 @@ import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
 type Profile = { id: string; full_name: string | null; phone: string | null; email: string | null };
+const ADMIN_EMAIL = "bahriabed16@gmail.com";
+
+const isAdminEmail = (email?: string | null) => email?.trim().toLowerCase() === ADMIN_EMAIL;
 
 interface AuthState {
   loading: boolean;
@@ -23,17 +26,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const loadExtras = async (uid: string) => {
+  const ensureProfileAndRole = async (currentUser: User) => {
+    const email = currentUser.email ?? "";
+    const metadata = currentUser.user_metadata as { full_name?: string; phone?: string } | null;
+    await supabase.from("profiles").upsert({
+      id: currentUser.id,
+      email,
+      full_name: metadata?.full_name ?? "",
+      phone: metadata?.phone ?? "",
+    }, { onConflict: "id", ignoreDuplicates: true });
+
+    if (isAdminEmail(email)) {
+      await supabase.from("user_roles").upsert({ user_id: currentUser.id, role: "admin" }, { onConflict: "user_id,role" });
+    }
+  };
+
+  const loadExtras = async (currentUser: User) => {
+    await ensureProfileAndRole(currentUser);
+    const uid = currentUser.id;
     const [{ data: prof }, { data: roles }] = await Promise.all([
       supabase.from("profiles").select("id, full_name, phone, email").eq("id", uid).maybeSingle(),
       supabase.from("user_roles").select("role").eq("user_id", uid),
     ]);
     setProfile(prof ?? null);
-    setIsAdmin(!!roles?.some((r) => r.role === "admin"));
+    setIsAdmin(isAdminEmail(currentUser.email) || !!roles?.some((r) => r.role === "admin"));
   };
 
   const refreshProfile = async () => {
-    if (user) await loadExtras(user.id);
+    if (user) await loadExtras(user);
   };
 
   useEffect(() => {
@@ -42,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(s?.user ?? null);
       if (s?.user) {
         // Defer to avoid deadlocks inside the listener
-        setTimeout(() => loadExtras(s.user.id), 0);
+        setTimeout(() => loadExtras(s.user), 0);
       } else {
         setProfile(null);
         setIsAdmin(false);
@@ -51,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s);
       setUser(s?.user ?? null);
-      if (s?.user) loadExtras(s.user.id).finally(() => setLoading(false));
+      if (s?.user) loadExtras(s.user).finally(() => setLoading(false));
       else setLoading(false);
     });
     return () => sub.subscription.unsubscribe();
