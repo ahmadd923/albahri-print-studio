@@ -19,13 +19,13 @@ const schema = z.object({
 });
 
 function LoginPage() {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!loading && user) navigate({ to: "/account" });
-  }, [user, loading, navigate]);
+    if (!loading && user) navigate({ to: isAdmin || user.email?.toLowerCase() === "bahriabed16@gmail.com" ? "/admin" : "/account" });
+  }, [user, loading, isAdmin, navigate]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +37,7 @@ function LoginPage() {
     setSubmitting(false);
     if (error) return toast.error(error.message);
     toast.success("Welcome back!");
-    navigate({ to: "/account" });
+    navigate({ to: parsed.data.email.toLowerCase() === "bahriabed16@gmail.com" ? "/admin" : "/account" });
   };
 
   return (
