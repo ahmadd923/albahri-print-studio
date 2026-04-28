@@ -239,15 +239,6 @@ export type Database = {
     Views: {
       [_ in never]: never
     }
-    Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-    }
     Enums: {
       app_role: "admin" | "customer"
       order_status: "new" | "in_progress" | "ready" | "delivered" | "cancelled"

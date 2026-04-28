@@ -53,12 +53,16 @@ export function ProductForm({ product, onSaved, onCancel }: { product: EditProdu
   const save = async () => {
     if (!p.name.trim()) return toast.error("Name required");
     setBusy(true);
-    const payload = { ...p, price: Number(p.price), stock: Number(p.stock) };
-    const { error } = p.id
-      ? await supabase.from("products").update(payload).eq("id", p.id)
+    const { id, ...rest } = p;
+    const payload = { ...rest, price: Number(p.price), stock: Number(p.stock) };
+    const { error } = id
+      ? await supabase.from("products").update(payload).eq("id", id)
       : await supabase.from("products").insert(payload);
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      console.error('Product save error:', error);
+      return toast.error(error.message);
+    }
     toast.success("Saved");
     onSaved();
   };
