@@ -54,15 +54,39 @@ export function ProductForm({ product, onSaved, onCancel }: { product: EditProdu
     if (!p.name.trim()) return toast.error("Name required");
     setBusy(true);
     const { id, ...rest } = p;
-    const payload = { ...rest, price: Number(p.price), stock: Number(p.stock) };
-    const { error } = id
-      ? await supabase.from("products").update(payload).eq("id", id)
-      : await supabase.from("products").insert(payload);
+    const payload = {
+      ...rest,
+      category_id: rest.category_id || null,
+      image_url: rest.image_url ?? null,
+      price: Number(rest.price),
+      stock: Number(rest.stock),
+      sizes: Array.isArray(rest.sizes) ? rest.sizes : [],
+      colors: Array.isArray(rest.colors) ? rest.colors : [],
+      printing_options: Array.isArray(rest.printing_options) ? rest.printing_options : [],
+      is_active: Boolean(rest.is_active),
+    };
+
+    console.log("Product save payload:", payload, { table: "products", op: id ? "update" : "insert" });
+
+    const query = id
+      ? supabase.from("products").update(payload).eq("id", id)
+      : supabase.from("products").insert(payload);
+    const { error } = await query;
     setBusy(false);
+
     if (error) {
-      console.error('Product save error:', error);
-      return toast.error(error.message);
+      console.error("Product save error:", error);
+      console.error("Product save error details:", {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        payload,
+        table: "products",
+      });
+      return toast.error(error.message || "Database error");
     }
+
     toast.success("Saved");
     onSaved();
   };
