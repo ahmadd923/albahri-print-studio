@@ -76,8 +76,9 @@ function AdminPage() {
     loadProducts();
   };
 
+  type Status = "new" | "in_progress" | "ready" | "delivered" | "cancelled";
   const updateStatus = async (id: string, status: string) => {
-    const { error } = await supabase.from("orders").update({ status: status as OrderRow["status"] }).eq("id", id);
+    const { error } = await supabase.from("orders").update({ status: status as Status }).eq("id", id);
     if (error) return toast.error(error.message);
     toast.success("Status updated");
     loadOrders();
