@@ -71,7 +71,6 @@ function CheckoutPage() {
 
   const saveOrder = async (data: z.infer<typeof schema>) => {
     if (!user) return;
-    const parsed = schema.safeParse({ customer_name: name, customer_phone: phone, notes });
     setSubmitting(true);
 
     const { data: order, error } = await supabase
