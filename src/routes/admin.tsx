@@ -89,7 +89,12 @@ function AdminPage() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-      <h1 className="font-display text-3xl font-bold text-primary mb-6">Admin Dashboard</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <h1 className="font-display text-3xl font-bold text-primary">Admin Dashboard</h1>
+        <span className="text-xs text-muted-foreground rounded-full border border-muted-foreground/30 bg-muted/10 px-3 py-1">
+          Version: product-fix-001
+        </span>
+      </div>
       <Tabs defaultValue="orders">
         <TabsList>
           <TabsTrigger value="orders">Orders ({orders.length})</TabsTrigger>
