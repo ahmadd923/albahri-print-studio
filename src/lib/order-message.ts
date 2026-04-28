@@ -1,5 +1,5 @@
 import type { CartItem } from "./cart";
-import { openWhatsApp, waLink } from "@/components/site/constants";
+import { waLink } from "@/components/site/constants";
 
 export function buildOrderMessage(opts: {
   customerName: string;
@@ -35,8 +35,4 @@ export function buildOrderMessage(opts: {
 
 export function buildOrderWaLink(message: string) {
   return waLink(message);
-}
-
-export function openOrderWhatsApp(message: string) {
-  openWhatsApp(message);
 }

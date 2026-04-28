@@ -1,13 +1,12 @@
 import { MessageCircle } from "lucide-react";
-import { openWhatsApp, waLink } from "./constants";
+import { waLink } from "./constants";
 
 export function StickyWhatsApp() {
   return (
     <a
       href={waLink()}
-      onClick={(e) => { e.preventDefault(); openWhatsApp(); }}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
       className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-elegant hover:scale-110 transition-transform animate-float"
     >

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ContactForm } from "@/components/site/ContactForm";
-import { BUSINESS, openWhatsApp, waLink } from "@/components/site/constants";
+import { BUSINESS, waLink } from "@/components/site/constants";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -44,7 +44,7 @@ function ContactPage() {
               <li className="flex items-start gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-gold text-primary"><MapPin className="h-5 w-5" /></span><div><div className="text-sm text-muted-foreground">Location</div><div className="font-medium text-foreground">{BUSINESS.location}</div></div></li>
             </ul>
             <Button asChild variant="whatsapp" size="lg" className="w-full">
-              <a href={waLink()} onClick={(e) => { e.preventDefault(); openWhatsApp(); }} target="_blank" rel="noreferrer">
+              <a href={waLink()} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-5 w-5" /> Order on WhatsApp
               </a>
             </Button>
