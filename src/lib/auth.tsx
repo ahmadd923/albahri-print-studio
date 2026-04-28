@@ -58,14 +58,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+      setLoading(true);
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
         // Defer to avoid deadlocks inside the listener
-        setTimeout(() => loadExtras(s.user), 0);
+        setTimeout(() => loadExtras(s.user).finally(() => setLoading(false)), 0);
       } else {
         setProfile(null);
         setIsAdmin(false);
+        setLoading(false);
       }
     });
     supabase.auth.getSession().then(({ data: { session: s } }) => {
