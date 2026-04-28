@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import heroImg from "@/assets/hero-products.jpg";
-import { openWhatsApp, waLink } from "./constants";
+import { waLink } from "./constants";
 
 export function Hero() {
   return (
@@ -24,7 +24,7 @@ export function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="xl" variant="hero">
-              <a href={waLink()} onClick={(e) => { e.preventDefault(); openWhatsApp(); }} target="_blank" rel="noreferrer">
+              <a href={waLink()} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-5 w-5" /> Order on WhatsApp
               </a>
             </Button>
